@@ -1,0 +1,122 @@
+latent_model:
+  base_units: 192
+  scale_alpha: 1.0
+  num_heads: 4
+  attn_drop: 0.1
+  proj_drop: 0.1
+  ffn_drop: 0.1
+  # inter-attn downsample/upsample
+  downsample: 2
+  downsample_type: "patch_merge"
+  upsample_type: "upsample"
+  upsample_kernel_size: 3
+  # cuboid attention
+  depth: [4, 4]
+  self_pattern: "axial"
+  # global vectors
+  num_global_vectors: 0
+  use_dec_self_global: false
+  dec_self_update_global: true
+  use_dec_cross_global: false
+  use_global_vector_ffn: false
+  use_global_self_attn: true
+  separate_global_qkv: true
+  global_dim_ratio: 1
+  # mise
+  ffn_activation: "gelu"
+  gated_ffn: false
+  norm_layer: "layer_norm"
+  padding_type: "zeros"
+  pos_embed_type: "t+h+w"
+  checkpoint_level: 0
+  use_relative_pos: true
+  self_attn_use_final_proj: true
+  # initialization
+  attn_linear_init_mode: "0"
+  ffn_linear_init_mode: "0"
+  ffn2_linear_init_mode: "2"
+  attn_proj_linear_init_mode: "2"
+  conv_init_mode: "0"
+  down_up_linear_init_mode: "0"
+  global_proj_linear_init_mode: "2"
+  norm_init_mode: "0"
+  # timestep embedding
+  time_embed_channels_mult: 4
+  time_embed_use_scale_shift_norm: false
+  time_embed_dropout: 0.0
+  unet_res_connect: True
+
+training_params:
+  micro_batch_size: 3
+  num_epochs: 200
+  num_workers: 12
+  early_stopping_patience: 50
+  early_stopping_metric: "partial_csi_m"
+  grad_accumulation_steps: 1
+  gradient_clip_val: 1.0
+  fp16: true
+
+optimizer_params:
+  learning_rate: 0.0005
+  optimizer_type: "adamw"
+  weight_decay: 0.0001
+
+scheduler_params:
+  scheduler_type: "cosine"
+  lr_plateau_factor: 0.2
+  lr_plateau_patience: 6
+  lr_cosine_warmup_iter_percentage: 0.01
+  lr_cosine_min_warmup_lr_ratio: 0.1
+  lr_cosine_min_lr_ratio: 0.01
+
+data_params:
+  lag_time: 13
+  lead_time: 12
+  time_spacing: 1
+
+run_params:
+  debug_mode: false
+  enable_wandb: true
+  run_string: "cfm_flowcast_ddp"
+  preload_model: null
+
+flow_matching_params:
+  flow_matching_method: "vanilla"
+  sigma: 0.01
+
+partial_evaluation_params:
+  partial_evaluation: true
+  partial_evaluation_interval: 1
+  partial_evaluation_batches: 40
+  cartopy_features: false
+
+autoencoder_params:
+  autoencoder_checkpoint: "saved_models/sevir/autoencoder/models/early_stopping_model.pt"
+  normalized_autoencoder: true
+  latent_channels: 4
+  norm_num_groups: 32
+  layers_per_block: 2
+  act_fn: "silu"
+  block_out_channels: [128, 256, 512, 512]
+  down_block_types:
+    - "DownEncoderBlock2D"
+    - "DownEncoderBlock2D"
+    - "DownEncoderBlock2D"
+    - "DownEncoderBlock2D"
+  up_block_types:
+    - "UpDecoderBlock2D"
+    - "UpDecoderBlock2D"
+    - "UpDecoderBlock2D"
+    - "UpDecoderBlock2D"
+
+ema_model_saving_params:
+  ema_model_saving: true
+  ema_model_saving_decay: 0.999
+
+test_params:
+  micro_batch_size: 6
+  num_workers: 12
+  probabilistic_samples: 8
+  batch_size_autoencoder: 12
+  euler_steps: 10
+  cartopy_features: false

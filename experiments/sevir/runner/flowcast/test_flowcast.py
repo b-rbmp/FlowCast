@@ -721,6 +721,8 @@ else:
         )
 
     print(f"CRPS: {crps_mean}")
+    # Scaled CRPS
+    print(f"CRPS (scaled by maximum SEVIR value): {crps_mean / 255.0}")
 
     mse_from_mean_mean = results["mse_from_mean_mean"]
     csi_from_mean_m = results["csi_from_mean_m"]

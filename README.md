@@ -124,6 +124,21 @@ python experiments/sevir/runner/flowcast/test_flowcast.py \
     --test_meta datasets/sevir/data/sevir_full/nowcast_testing_full_META.csv
 ```
 
+### 5. Inference with Model Checkpoints
+
+Model checkpoints for the SEVIR dataset can be downloaded from the Hugging Face Hub for the [autoencoder](https://huggingface.co/b-rbmp/flowcast-cfm-sevir/resolve/main/saved_models/sevir/autoencoder/models/early_stopping_model.pt) and [FlowCast](https://huggingface.co/b-rbmp/flowcast-cfm-sevir/resolve/main/saved_models/sevir/flowcast/models/early_stopping_model.pt). To properly set it up, create the following folder structure (and rename the downloaded files to match the structure):
+
+```
+saved_models/
+└── sevir/
+    ├── autoencoder/
+    │   └── models/
+    │       └── early_stopping_model.pt
+    └── flowcast/
+        └── models/
+            └── early_stopping_model.pt
+```
+
 ### Resource Estimates
 
 Training times are estimated based on a single node with 4 x H100 GPUs. Inference times are estimated for a single node with 2 x H100 GPUs.

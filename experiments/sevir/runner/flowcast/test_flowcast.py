@@ -597,7 +597,7 @@ else:
                 x_pred = decoded_obj_fallback.sample
 
         if torch.isnan(x_pred).any():
-            print(f"{DEBUG_PRINT_PREFIX}WARNING: NaNs detected in inference batch! Replacing with 0.0. If you are running this script with FP16, try running with FP32.")
+            print(f"{DEBUG_PRINT_PREFIX}WARNING: NaNs detected in inference batch! If you are running this script with FP16, try running with FP32.")
 
         if NORMALIZED_AUTOENCODER:
             x_pred = x_pred * 255.0

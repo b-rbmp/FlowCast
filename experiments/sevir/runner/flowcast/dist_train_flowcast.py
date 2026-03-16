@@ -1369,10 +1369,7 @@ def partial_evaluate_model(
                 )
                 for i in range(0, x_cond.shape[0], bs_ae):
                     chunk = x_cond[i : i + bs_ae]
-                    with torch.amp.autocast(
-                        device_type=device.type, enabled=use_fp16
-                    ):
-                        encoded_chunk = ae_model.encode(chunk)
+                    encoded_chunk = ae_model.encode(chunk)
                     encoded_chunk = encoded_chunk.latent_dist.mode()
                     encoded_chunks.append(encoded_chunk)
                 x_cond = torch.cat(encoded_chunks, dim=0)
@@ -1460,8 +1457,7 @@ def partial_evaluate_model(
                 )
                 for i in range(0, x_pred_tensor.shape[0], bs_ae):
                     chunk = x_pred_tensor[i : i + bs_ae]
-                    with torch.amp.autocast(device_type=device.type, enabled=use_fp16):
-                        decoded_chunk = ae_model.decode(chunk)
+                    decoded_chunk = ae_model.decode(chunk)
                     decoded_chunk = decoded_chunk.sample
                     decoded_chunks.append(decoded_chunk)
                 x_pred_tensor = torch.cat(
@@ -1479,7 +1475,7 @@ def partial_evaluate_model(
                 x_pred_tensor = x_pred_tensor * 255.0
 
             if torch.isnan(x_pred_tensor).any():
-                print(f"{debug_print_prefix}NaN values found in x_pred after decode")
+                print(f"{debug_print_prefix} WARNING: NaN values found in x_pred after decode (likely due to FP16) - Please rerun with fp16: false")
 
             x_pred_tensor = x_pred_tensor.reshape(B, S, T, 1, H_true, W_true)
             x_pred_tensor = x_pred_tensor.permute(

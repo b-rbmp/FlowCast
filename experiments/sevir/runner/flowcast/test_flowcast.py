@@ -596,6 +596,9 @@ else:
                 decoded_obj_fallback = safe_decode(ae_model, x_pred)
                 x_pred = decoded_obj_fallback.sample
 
+        if torch.isnan(x_pred).any():
+            print(f"{DEBUG_PRINT_PREFIX}WARNING: NaNs detected in inference batch! Replacing with 0.0. If you are running this script with FP16, try running with FP32.")
+
         if NORMALIZED_AUTOENCODER:
             x_pred = x_pred * 255.0
         new_channels, new_H, new_W = x_pred.shape[1], x_pred.shape[2], x_pred.shape[3]

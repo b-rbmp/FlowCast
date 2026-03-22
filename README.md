@@ -2,7 +2,7 @@
 
 **Authors:** Bernardo Perrone Ribeiro, Jana Faganeli Pucer (University of Ljubljana)
 
-This repo contains the official implementation of the paper ["FlowCast: Advancing Precipitation Nowcasting with Conditional Flow Matching"](https://openreview.net/pdf?id=47ToW7T1iU) accepted to **ICLR 2026**.
+This repo contains the official implementation of the paper ["FlowCast: Advancing Precipitation Nowcasting with Conditional Flow Matching"](https://arxiv.org/pdf/2511.09731) accepted to **ICLR 2026**.
 
 ## Introduction
 

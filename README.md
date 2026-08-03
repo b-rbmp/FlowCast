@@ -152,12 +152,12 @@ Training times are estimated based on a single node with 4 x H100 GPUs. Inferenc
 ## Citation
 
 ```bibtex
-@inproceedings{
-    ribeiro2026flowcast,
-    title={FlowCast: Advancing Precipitation Nowcasting with Conditional Flow Matching},
-    author={Bernardo Perrone Ribeiro and Jana Faganeli Pucer},
-    booktitle={The Fourteenth International Conference on Learning Representations},
-    year={2026},
-    url={https://openreview.net/forum?id=47ToW7T1iU}
+@inproceedings{perrone2026flowcast,
+  title={FlowCast: Advancing Precipitation Nowcasting with Conditional Flow Matching},
+  author={Perrone Ribeiro, Bernardo and Faganeli Pucer, Jana},
+  booktitle={International Conference on Learning Representations},
+  volume={2026},
+  pages={156863--156883},
+  year={2026}
 }
 ```
